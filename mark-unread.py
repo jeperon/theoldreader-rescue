@@ -1,12 +1,20 @@
+from dotenv import dotenv_values
+
 import requests
 
-print('Fetching access token')
+print('Loading configuration...')
+config = dotenv_values(".env")
+
+username = config['THEOLDREADER_USERNAME']
+passwprd = config['THEOLDREADER_PASSWORD']
+
+print('Fetching access token for user: {}'.format(username))
 r = requests.post('https://theoldreader.com/accounts/ClientLogin', 
   data = {'client':'theoldreader-rescue', 
           'accountType' : 'HOSTED_OR_GOOGLE',
           'service' : 'reader',
-          'Email' : 'XXXXX',
-          'Passwd' : 'YYYYYYY'})
+          'Email' : username,
+          'Passwd' : passwprd})
 
 if (not r.ok):
     print('Could not obtain access token')
